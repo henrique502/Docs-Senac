@@ -1,4 +1,4 @@
-package br.com.hrdev.docsclient.viwes;
+package br.com.hrdev.docsclient.views;
 
 import br.com.hrdev.docsclient.Main;
 import br.com.hrdev.docsclient.components.DocsLista;

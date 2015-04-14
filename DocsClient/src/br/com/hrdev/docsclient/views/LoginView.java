@@ -1,5 +1,9 @@
-package br.com.hrdev.docsclient.viwes;
+package br.com.hrdev.docsclient.views;
 
+import br.com.hrdev.docsclient.controllers.LoginController;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,7 +14,7 @@ import javax.swing.JTextField;
  *
  * @author henriqueschmidt
  */
-public class LoginView extends JPanel {
+public class LoginView extends View {
 
     private JButton btnLogin;
     private JButton btnNovaConta;
@@ -18,9 +22,13 @@ public class LoginView extends JPanel {
     private JTextField inputUsername;
     private JLabel labelSenha;
     private JLabel labelUsuario;
+    
+    private final LoginController controller;
 
     public LoginView() {
+        controller = new LoginController(this);
         initComponents();
+        controller.init();
     }
 
     private void initComponents() {
@@ -34,14 +42,16 @@ public class LoginView extends JPanel {
 
         labelUsuario.setText("Usuário");
         labelSenha.setText("Senha");
-        inputUsername.setText("inputUsername");
-        inputPassword.setText("inputSenha");
 
         btnLogin.setText("Login");
         btnNovaConta.setText("Criar noma conta");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        
+        JPanel panel = new JPanel();
+        setLayout(new GridBagLayout());
+        add(panel, new GridBagConstraints());
+        
+        GroupLayout layout = new GroupLayout(panel);
+        panel.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -78,5 +88,37 @@ public class LoginView extends JPanel {
                                 .addComponent(btnLogin)
                                 .addComponent(btnNovaConta)))
         );
+    }
+
+    public JButton getBtnLogin() {
+        return btnLogin;
+    }
+
+    public JButton getBtnNovaConta() {
+        return btnNovaConta;
+    }
+
+    public JPasswordField getInputPassword() {
+        return inputPassword;
+    }
+
+    public JTextField getInputUsername() {
+        return inputUsername;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        btnLogin.setEnabled(enabled);
+        btnNovaConta.setEnabled(enabled);
+        inputPassword.setEnabled(enabled);
+        inputUsername.setEnabled(enabled);
+    }
+
+    @Override
+    protected void actived(){
+        inputUsername.setText("");
+        inputPassword.setText("");
+        setEnabled(true);
     }
 }

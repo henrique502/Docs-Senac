@@ -1,11 +1,12 @@
 package br.com.hrdev.docsclient.entities;
 
+import java.io.Serializable;
+
 /**
  *
  * @author henriqueschmidt
  */
-public interface Entity {
+public abstract class Entity implements Serializable {
     
-    public Integer getId();
-    public String getNome();
+    public abstract String getNome();
 }

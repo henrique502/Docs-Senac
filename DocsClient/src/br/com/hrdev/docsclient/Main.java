@@ -1,10 +1,14 @@
 package br.com.hrdev.docsclient;
 
-import br.com.hrdev.docsclient.viwes.ApplicationFrame;
+import br.com.hrdev.docsclient.controllers.Controller;
+import br.com.hrdev.docsclient.controllers.WelcomeController;
+import br.com.hrdev.docsclient.helpers.ValidationHelper;
+import br.com.hrdev.docsclient.views.Window;
 import java.awt.EventQueue;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -17,6 +21,7 @@ public class Main implements Runnable {
     public static String BASE_DIR = null;
     public static Integer SERVER_PORT = null;
     public static String LOCAL_IP = null;
+    public static String SERVER_IP = null;
     
     public static void main(String[] args) {
         try {
@@ -50,6 +55,12 @@ public class Main implements Runnable {
         BASE_DIR = System.getProperty("user.dir");
         SERVER_PORT = 7896;
         LOCAL_IP = getLocalIp();
+        SERVER_IP = JOptionPane.showInputDialog("Digite ip do servidor:", LOCAL_IP);
+        
+        if(SERVER_IP == null || ValidationHelper.validateIPV4(SERVER_IP) == false){
+            System.err.println("IP Inválido");
+            System.exit(0);
+        }
     }
     
     public URL getAssets(String path){
@@ -66,11 +77,14 @@ public class Main implements Runnable {
 
     @Override
     public void run() {
-        ApplicationFrame frame = new ApplicationFrame();
-
+        Window frame = Window.getInstance();
         frame.setTitle("Docs Client (" + LOCAL_IP + ")");
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void Conenctar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

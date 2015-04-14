@@ -1,26 +1,25 @@
 package br.com.hrdev.docsclient.entities;
 
-import java.io.Serializable;
-
 /**
  *
  * @author henriqueschmidt
  */
-public class Usuario implements Entity, Serializable {
+public class Usuario extends Entity {
     
     private String nome;
+    private String senha;
 
     public Usuario(String nome) {
         this.nome = nome;
     }
 
-    public Usuario() {
-        this(null);
+    public Usuario(String nome, String senha) {
+        this.nome = nome;
+        this.senha = senha;
     }
     
-    @Override
-    public Integer getId() {
-        return null;
+    public Usuario() {
+        this(null);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package br.com.hrdev.docsclient.entities;
 
 import br.com.hrdev.docsclient.Main;
-import java.io.Serializable;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -9,7 +8,7 @@ import javax.swing.ImageIcon;
  *
  * @author henriqueschmidt
  */
-public class Documento implements Entity, Serializable {
+public class Documento extends Entity {
     
     private String titulo;
     private Usuario autor;
@@ -23,10 +22,6 @@ public class Documento implements Entity, Serializable {
         this.autor = autor;
     }
     
-    @Override
-    public Integer getId() {
-        return null;
-    }
 
     @Override
     public String getNome() {
