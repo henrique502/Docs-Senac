@@ -1,16 +1,9 @@
 package br.com.hrdev.docsclient.apis.actions;
 
+import br.com.hrdev.docsclient.apis.Api;
 import br.com.hrdev.docsclient.apis.ApiAction;
-import br.com.hrdev.docsclient.apis.ApiTalk;
 import br.com.hrdev.docsclient.controllers.LoginController;
 import br.com.hrdev.docsclient.entities.Usuario;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 /**
  *
@@ -27,19 +20,18 @@ public class LoginApi extends ApiAction {
     }
 
     @Override
-    public void execute(InputStream in, OutputStream out) {
+    public void execute(Api.Stream stream) {
         String response;
         try {
-            ObjectOutputStream writerObject = new ObjectOutputStream(out);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            PrintStream writer = new PrintStream(out);
+            stream.w.println("login");
+            response = stream.r.readLine();
             
-            writer.println(ApiTalk.LOGIN);
-            response = reader.readLine();
-            if(response.equals(ApiTalk.OK)){
-                writerObject.writeObject(usuario);
+            System.out.println(response);
+            
+            if(response.equals("ok")){
+                stream.wo.writeObject(usuario);
                 
-                response = reader.readLine();
+                response = stream.r.readLine();
                 System.out.println(response);
             } else {
                 System.err.println(response);

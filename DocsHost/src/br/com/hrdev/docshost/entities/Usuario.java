@@ -1,4 +1,4 @@
-package br.com.hrdev.docsclient.entities;
+package br.com.hrdev.docshost.entities;
 
 import java.io.Serializable;
 

@@ -1,9 +1,7 @@
-package br.com.hrdev.docsclient.entities;
+package br.com.hrdev.docshost.entities;
 
-import br.com.hrdev.docsclient.Main;
 import java.io.Serializable;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -30,7 +28,7 @@ public class Documento extends Entity implements Serializable {
     }
 
     public Icon getIcon() {
-        return new ImageIcon(Main.getInstance().getAssets("doc.png"));
+        return null;
     }
 
     public Usuario getAutor() {

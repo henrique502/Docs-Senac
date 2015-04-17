@@ -1,5 +1,6 @@
 package br.com.hrdev.docshost;
 
+import br.com.hrdev.docshost.server.Server;
 import java.awt.EventQueue;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -66,6 +67,6 @@ public class Main implements Runnable {
 
     @Override
     public void run() {
-        
+        Server server = new Server(LOCAL_IP, SERVER_PORT);
     }
 }

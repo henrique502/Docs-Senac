@@ -1,4 +1,4 @@
-package br.com.hrdev.docsclient.apis;
+package br.com.hrdev.docshost.api;
 
 /**
  *
@@ -19,5 +19,7 @@ public enum ApiTalk {
         return this.command;
     }
     
-    public String getValue() { return command; }
+    public String getValue() {
+        return command;
+    }
 }
