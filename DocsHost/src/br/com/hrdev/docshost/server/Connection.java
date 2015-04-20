@@ -1,29 +1,23 @@
 package br.com.hrdev.docshost.server;
 
 import br.com.hrdev.docshost.api.Api;
-import java.io.BufferedReader;
+import br.com.hrdev.shared.docs.Mensagem;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 /**
  *
  * @author henriqueschmidt
  */
 public class Connection implements Runnable {
-    
+
     private final Thread thread;
     private final Socket cliente;
     private final String ip;
     private final Stream stream;
-    
+
     public Connection(Socket cliente) throws IOException {
         this.cliente = cliente;
         this.thread = new Thread(this);
@@ -38,30 +32,27 @@ public class Connection implements Runnable {
     public Socket getCliente() {
         return cliente;
     }
-    
-    /**
-     * new BufferedReader(new InputStreamReader(in));
-     * new PrintStream(out);
-     * new ObjectOutputStream(out);
-     * new ObjectInputStream(in);
-     */
+
     @Override
     public void run() {
-        try {
-            Scanner reader = new Scanner(cliente.getInputStream());
-            Api api = new Api();
-            while (reader.hasNextLine()){
-                
-                String comando = reader.nextLine().trim();
-                stream.log(comando);
-                switch(comando){
-                    case "quit": quit(); break;
-                    case "login": api.login(stream); break;
-                    default: api.notfound(stream); break;
+        Api api = new Api();
+        while (true){
+            try {
+                Mensagem msg = stream.get();
+                switch (msg.getComando()) {
+                    case "quit":
+                        quit();
+                        return;
+                    case "login":
+                        api.login(stream, msg.getValue());
+                        break;
+                    default:
+                        api.notfound(stream);
+                        break;
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception ex){
-            ex.printStackTrace();
         }
     }
 
@@ -73,35 +64,24 @@ public class Connection implements Runnable {
     public String getIp() {
         return this.ip;
     }
-    
+
     public class Stream {
 
-        /**
-         * readerObject - ObjectInputStream
-         */
-        public final ObjectInputStream ro;
-
-        /**
-         * writerObject - ObjectOutputStream
-         */
-        public final ObjectOutputStream wo;
-
-        /**
-         * reader - BufferedReader
-         */
-        public final BufferedReader r;
-
-        /**
-         * writer - PrintStream
-         */
-        public final PrintStream w;
+        private final ObjectInputStream ro;
+        private final ObjectOutputStream wo;
 
         private Stream() throws IOException {
-            this.r = new BufferedReader(new InputStreamReader(cliente.getInputStream(), StandardCharsets.UTF_8));
-            this.ro = new ObjectInputStream(cliente.getInputStream());
-            
-            this.w = new PrintStream(cliente.getOutputStream());
             this.wo = new ObjectOutputStream(cliente.getOutputStream());
+            this.ro = new ObjectInputStream(cliente.getInputStream());
+        }
+
+        public void send(Mensagem msg) throws IOException {
+            this.wo.writeObject(msg);
+        }
+
+        public Mensagem get() throws IOException, ClassNotFoundException {
+            Mensagem msg = (Mensagem) ro.readObject();
+            return msg;
         }
 
         public void log(String comando) {

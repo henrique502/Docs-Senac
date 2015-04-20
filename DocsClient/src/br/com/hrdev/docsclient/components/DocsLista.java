@@ -1,11 +1,14 @@
 package br.com.hrdev.docsclient.components;
 
-import br.com.hrdev.docsclient.entities.Documento;
-import br.com.hrdev.docsclient.entities.Usuario;
+import br.com.hrdev.docsclient.Main;
+import br.com.hrdev.shared.docs.Documento;
+import br.com.hrdev.shared.docs.Usuario;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -29,16 +32,17 @@ public class DocsLista extends JList {
         DefaultListModel listModel = new DefaultListModel();
         setModel(listModel);
         
-        Documento doc = new Documento("Teste 1", new Usuario("Henrique"));
+        Usuario u = new Usuario("Henrique");
+        Documento doc = new Documento(u);
         listModel.addElement(doc);
         
-        doc = new Documento("Teste 2", new Usuario("Henrique"));
+        doc = new Documento(u);
         listModel.addElement(doc);
         
-        doc = new Documento("Teste 3", new Usuario("Henrique"));
+        doc = new Documento(u);
         listModel.addElement(doc);
         
-        doc = new Documento("Teste Share", new Usuario("Adriano"));
+        doc = new Documento(u);
         listModel.addElement(doc);
         
     }
@@ -60,9 +64,11 @@ public class DocsLista extends JList {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Documento doc = (Documento) value;
             
-            String label = "<html>" + doc.getNome() + "<br><small>" + doc.getAutor().getNome() + "</small></html>";
+            String label = "<html>" + doc.getTitulo() + "<br><small>" + doc.getAutor().getNome() + "</small></html>";
             setText(label);
-            setIcon(doc.getIcon());
+            
+            Icon icon = new ImageIcon(Main.getInstance().getAssets("doc.png"));
+            setIcon(icon);
             
             if (isSelected) {
                 setBackground(HIGHLIGHT_COLOR);

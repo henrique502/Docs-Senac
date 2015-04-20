@@ -1,6 +1,7 @@
 package br.com.hrdev.docshost.server;
 
 import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  *
@@ -26,7 +27,8 @@ public class Server implements Runnable {
     public void run() {
         while(true){
             try {
-                Connection connection = new Connection(server.accept());
+                Socket socket = server.accept();
+                Connection connection = new Connection(socket);
                 connection.getThread().start();
             } catch(Exception e){
                 e.printStackTrace();

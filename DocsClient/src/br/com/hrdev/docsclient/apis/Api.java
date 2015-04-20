@@ -2,17 +2,12 @@ package br.com.hrdev.docsclient.apis;
 
 import br.com.hrdev.docsclient.Main;
 import br.com.hrdev.docsclient.views.Window;
-import java.io.BufferedReader;
+import br.com.hrdev.shared.docs.Mensagem;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import javax.swing.JOptionPane;
 
 /**
@@ -73,34 +68,21 @@ public class Api {
     
     public class Stream {
 
-        /**
-         * readerObject - ObjectInputStream
-         */
-        public final ObjectInputStream ro;
-
-        /**
-         * writerObject - ObjectOutputStream
-         */
-        public final ObjectOutputStream wo;
-
-        /**
-         * reader - BufferedReader
-         */
-        public final BufferedReader r;
-
-        /**
-         * writer - PrintStream
-         */
-        public final PrintStream w;
-
+        private final ObjectInputStream ro;
+        private final ObjectOutputStream wo;
 
         private Stream() throws IOException {
-            this.r = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
             this.ro = new ObjectInputStream(socket.getInputStream());
-            
-            this.w = new PrintStream(socket.getOutputStream());
             this.wo = new ObjectOutputStream(socket.getOutputStream());
         }
-
+        
+        public void send(Mensagem msg) throws IOException {
+            this.wo.writeObject(msg);
+        }
+        
+        public Mensagem get() throws IOException, ClassNotFoundException{
+            Mensagem msg = (Mensagem) ro.readObject();
+            return msg;
+        }
     }
 }

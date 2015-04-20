@@ -3,7 +3,8 @@ package br.com.hrdev.docsclient.apis.actions;
 import br.com.hrdev.docsclient.apis.Api;
 import br.com.hrdev.docsclient.apis.ApiAction;
 import br.com.hrdev.docsclient.controllers.LoginController;
-import br.com.hrdev.docsclient.entities.Usuario;
+import br.com.hrdev.shared.docs.Mensagem;
+import br.com.hrdev.shared.docs.Usuario;
 
 /**
  *
@@ -23,22 +24,15 @@ public class LoginApi extends ApiAction {
     public void execute(Api.Stream stream) {
         String response;
         try {
-            stream.w.println("login");
-            response = stream.r.readLine();
+            stream.send(new Mensagem("login", usuario));
+            Mensagem msg = (Mensagem) stream.get();
             
-            System.out.println(response);
-            
-            if(response.equals("ok")){
-                stream.wo.writeObject(usuario);
-                
-                response = stream.r.readLine();
-                System.out.println(response);
+            controller.enableView();
+            if(msg.getComando().equals("sucesso")){
+                controller.login((Usuario) msg.getValue());
             } else {
-                System.err.println(response);
+                controller.showErro(msg.getDescricao());
             }
-            
-            
-            
         } catch(Exception e){
             e.printStackTrace();
         }

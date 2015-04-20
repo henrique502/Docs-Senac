@@ -3,9 +3,9 @@ package br.com.hrdev.docsclient.controllers;
 import br.com.hrdev.docsclient.apis.Api;
 import br.com.hrdev.docsclient.apis.ApiAction;
 import br.com.hrdev.docsclient.apis.actions.LoginApi;
-import br.com.hrdev.docsclient.entities.Usuario;
 import br.com.hrdev.docsclient.views.LoginView;
 import br.com.hrdev.docsclient.views.Window;
+import br.com.hrdev.shared.docs.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,12 +26,24 @@ public class LoginController extends Controller {
         view.getBtnNovaConta().addActionListener(new NovaContaAction());
         view.getBtnLogin().addActionListener(new LoginAction());
     }
+    
+    public void login(Usuario usuario){
+        Window.getInstance().setStatusText("Bem Vindo " + usuario.getNome());
+        
+        // TODO: Guardar o usuario e alguma singleton
+        //Window.getInstance().changeView(Window.ViewID.DASHBOARD);
+    }
+
+    public void enableView() {
+        Window.getInstance().setStatusText("Conectado");
+        view.setEnabled(true);
+    }
 
     private class NovaContaAction implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            Window.getInstance().changeView(Window.ViewID.NOVO_USUARIO);
         }
     }
 
@@ -44,13 +56,13 @@ public class LoginController extends Controller {
 
             Usuario usuario = new Usuario(view.getInputUsername().getText(), new String(view.getInputPassword().getPassword()));
             ApiAction action = new LoginApi(self, usuario);
+            
             try {
                 Api.getInstance().execute(action);
             } catch (Exception ex) {
                 Window.getInstance().setStatusText(ex.getMessage());
                 ex.printStackTrace();
             }
-
         }
     }
 }

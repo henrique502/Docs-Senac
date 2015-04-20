@@ -51,6 +51,7 @@ public class Main implements Runnable {
         BASE_DIR = System.getProperty("user.dir");
         SERVER_PORT = 7896;
         LOCAL_IP = getLocalIp();
+        Storage.getInstance();
     }
     
     public URL getAssets(String path){
