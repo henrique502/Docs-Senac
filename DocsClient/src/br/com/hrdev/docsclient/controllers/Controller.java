@@ -17,5 +17,7 @@ public abstract class Controller {
         JOptionPane.showMessageDialog(Window.getInstance(), msg, "Erro", JOptionPane.ERROR_MESSAGE);
     }
     
-    
+    public void showInfo(String msg){
+        JOptionPane.showMessageDialog(Window.getInstance(), msg, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
 }

@@ -1,11 +1,13 @@
 package br.com.hrdev.docsclient.components;
 
 import br.com.hrdev.docsclient.Main;
+import br.com.hrdev.docsclient.views.Window;
 import br.com.hrdev.shared.docs.Documento;
 import br.com.hrdev.shared.docs.Usuario;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,7 +22,9 @@ import javax.swing.border.EmptyBorder;
  * @author henriqueschmidt
  */
 public class DocsLista extends JList {
-
+    
+    private final DefaultListModel listModel;
+    
     public DocsLista() {
         super();
 
@@ -29,7 +33,7 @@ public class DocsLista extends JList {
         setCellRenderer(new ListaCellRenderer());
         
         
-        DefaultListModel listModel = new DefaultListModel();
+        listModel = new DefaultListModel();
         setModel(listModel);
         
         Usuario u = new Usuario("Henrique");
@@ -45,6 +49,13 @@ public class DocsLista extends JList {
         doc = new Documento(u);
         listModel.addElement(doc);
         
+    }
+
+    public void updateContent() {
+        listModel.clear();
+        ArrayList<Documento> documentos = Window.getInstance().getUsuario().getDocumentos();
+        for(Documento doc : documentos)
+            listModel.addElement(doc);
     }
 
     private class ListaCellRenderer extends JLabel implements ListCellRenderer {

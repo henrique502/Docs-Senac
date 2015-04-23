@@ -30,8 +30,8 @@ public class LoginController extends Controller {
     public void login(Usuario usuario){
         Window.getInstance().setStatusText("Bem Vindo " + usuario.getNome());
         
-        // TODO: Guardar o usuario e alguma singleton
-        //Window.getInstance().changeView(Window.ViewID.DASHBOARD);
+        Window.getInstance().setUsuario(usuario);
+        Window.getInstance().changeView(Window.ViewID.DASHBOARD);
     }
 
     public void enableView() {
@@ -43,7 +43,7 @@ public class LoginController extends Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Window.getInstance().changeView(Window.ViewID.NOVO_USUARIO);
+            Window.getInstance().changeView(Window.ViewID.CADASTRO);
         }
     }
 

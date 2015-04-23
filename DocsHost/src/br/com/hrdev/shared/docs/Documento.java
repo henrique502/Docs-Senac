@@ -16,7 +16,7 @@ public class Documento extends Shared {
 
     public Documento(Usuario autor) {
         this.autor = autor;
-        this.titulo = "Sem título";
+        this.titulo = "";
         this.conteudo = "";
     }
 

@@ -2,6 +2,7 @@ package br.com.hrdev.docshost.server;
 
 import br.com.hrdev.docshost.api.Api;
 import br.com.hrdev.shared.docs.Mensagem;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,6 +18,7 @@ public class Connection implements Runnable {
     private final Socket cliente;
     private final String ip;
     private final Stream stream;
+    private boolean running = true;
 
     public Connection(Socket cliente) throws IOException {
         this.cliente = cliente;
@@ -36,7 +38,7 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         Api api = new Api();
-        while (true){
+        while (running){
             try {
                 Mensagem msg = stream.get();
                 switch (msg.getComando()) {
@@ -46,19 +48,27 @@ public class Connection implements Runnable {
                     case "login":
                         api.login(stream, msg.getValue());
                         break;
+                    case "cadastro":
+                        api.cadastro(stream, msg.getValue());
+                        break;
                     default:
                         api.notfound(stream);
                         break;
                 }
-            } catch (Exception e) {
+            } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
+            } catch(Exception e){
+                quit();
             }
         }
     }
 
-    private void quit() throws IOException {
-        cliente.close();
-        thread.interrupt();
+    private void quit(){
+        running = false;
+        try {
+            cliente.close();
+            thread.interrupt();
+        } catch(IOException e){}
     }
 
     public String getIp() {
@@ -79,7 +89,7 @@ public class Connection implements Runnable {
             this.wo.writeObject(msg);
         }
 
-        public Mensagem get() throws IOException, ClassNotFoundException {
+        public Mensagem get() throws IOException, ClassNotFoundException, EOFException {
             Mensagem msg = (Mensagem) ro.readObject();
             return msg;
         }

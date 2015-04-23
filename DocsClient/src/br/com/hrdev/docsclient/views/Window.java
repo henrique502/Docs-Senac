@@ -1,6 +1,7 @@
 package br.com.hrdev.docsclient.views;
 
 import br.com.hrdev.docsclient.apis.Api;
+import br.com.hrdev.shared.docs.Usuario;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -31,6 +32,7 @@ public class Window extends JFrame {
     private JMenu menuStatus;
     private ArrayList<View> views;
     private ViewID currentView;
+    private Usuario usuario = null;
 
     protected Window() {}
     
@@ -101,6 +103,16 @@ public class Window extends JFrame {
         views.add(ViewID.LOGIN.getIndex(), view);
         panel.add(view, ViewID.LOGIN.toString());
         
+        /* Cadastro */
+        view = new CadastroView();
+        views.add(ViewID.CADASTRO.getIndex(), view);
+        panel.add(view, ViewID.CADASTRO.toString());
+        
+        /* Dashboard */
+        view = new DashboardView();
+        views.add(ViewID.DASHBOARD.getIndex(), view);
+        panel.add(view, ViewID.DASHBOARD.toString());
+        
         changeView(ViewID.WELCOME);
     }
     
@@ -112,10 +124,18 @@ public class Window extends JFrame {
         menuStatus.setText(text);
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     public enum ViewID {
         WELCOME("Welcome", 0),
         LOGIN("Login", 1),
-        NOVO_USUARIO("NovoUsuario", 2),
+        CADASTRO("Cadastro", 2),
         DASHBOARD("Dashboard", 3);
         
         private final String name;

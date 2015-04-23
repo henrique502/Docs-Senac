@@ -14,13 +14,11 @@ public class Usuario extends Shared {
     private String nome;
     private String senha;
     private ArrayList<Documento> documentos;
-    private ArrayList<Documento> compartilhados;
 
     public Usuario(String nome, String senha) {
         this.nome = nome;
         this.senha = senha;
         this.documentos = new ArrayList<>();
-        this.compartilhados = new ArrayList<>();
     }
     
     public Usuario(String nome) {
@@ -35,9 +33,19 @@ public class Usuario extends Shared {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getSenha() {
         return senha;
     }
-    
-    
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public ArrayList<Documento> getDocumentos() {
+        return documentos;
+    }
 }

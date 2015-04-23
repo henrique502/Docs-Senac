@@ -18,9 +18,6 @@ public class Storage {
     protected Storage(){
         usuarios = new ArrayList<>();
         documentos = new ArrayList<>();
-        
-        // Teste
-        usuarios.add(new Usuario("henrique", "102030"));
     }
     
     public static Storage getInstance(){
@@ -34,6 +31,23 @@ public class Storage {
         
         for(Usuario u : usuarios){
             if(u.getNome().equals(usuario.getNome()) && u.getSenha().equals(usuario.getSenha())){
+                return u;
+            }
+        }
+        
+        return null;
+    }
+
+    public void saveUsuario(Usuario usuario) {
+        Usuario u = new Usuario();
+        u.setNome(usuario.getNome());
+        u.setSenha(usuario.getSenha());
+        usuarios.add(u);
+    }
+
+    public Usuario getUsuarioByUsername(String nome) {
+        for(Usuario u : usuarios){
+            if(u.getNome().equals(nome)){
                 return u;
             }
         }
