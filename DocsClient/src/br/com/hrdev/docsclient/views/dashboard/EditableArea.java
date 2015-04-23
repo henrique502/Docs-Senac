@@ -22,10 +22,11 @@ public class EditableArea extends JPanel {
     private Documento doc;
     private final JTextArea texto;
     private final JTextField titulo;
+
     
     public EditableArea(DashboardView view) {
         this.view = view;
-        setLayout(new BorderLayout(0, 0));
+        setLayout(new BorderLayout(5, 5));
         
         Font font = new Font("Arial", Font.PLAIN, 14);
         Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -49,24 +50,10 @@ public class EditableArea extends JPanel {
         content.add(texto, BorderLayout.CENTER);
         
         /* Scroll Content */
-        JScrollPane scrollContent = new JScrollPane(texto, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollContent = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollContent.setBorder(null);
         add(scrollContent, BorderLayout.CENTER);
         
-    }
-
-    public Documento getDoc() {
-        doc.setTitulo(titulo.getText());
-        doc.setConteudo(texto.getText());
-        
-        return doc;
-    }
-
-    public void setDoc(Documento doc) {
-        titulo.setText(doc.getTitulo());
-        texto.setText(doc.getConteudo());
-        
-        this.doc = doc;
     }
 
     @Override
@@ -74,5 +61,21 @@ public class EditableArea extends JPanel {
         super.setEnabled(enabled);
         titulo.setEnabled(enabled);
         texto.setEnabled(enabled);
+    }
+    
+    public String getTitulo(){
+        return this.titulo.getText();
+    }
+    
+    public void setTitulo(String titulo){
+        this.titulo.setText(titulo);
+    }
+    
+    public String getConteudo(){
+        return this.texto.getText();
+    }
+    
+    public void setConteudo(String conteudo){
+        this.texto.setText(conteudo);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.hrdev.docshost.server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -28,9 +29,8 @@ public class Server implements Runnable {
         while(true){
             try {
                 Socket socket = server.accept();
-                Connection connection = new Connection(socket);
-                connection.getThread().start();
-            } catch(Exception e){
+                new Thread(new Connection(socket)).start();
+            } catch(IOException e){
                 e.printStackTrace();
             }
         }

@@ -71,8 +71,6 @@ public class Window extends JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                Api.getInstance().close();
                 dispose();
                 System.exit(0);
             }

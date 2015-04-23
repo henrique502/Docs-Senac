@@ -35,20 +35,6 @@ public class DocsLista extends JList {
         
         listModel = new DefaultListModel();
         setModel(listModel);
-        
-        Usuario u = new Usuario("Henrique");
-        Documento doc = new Documento(u);
-        listModel.addElement(doc);
-        
-        doc = new Documento(u);
-        listModel.addElement(doc);
-        
-        doc = new Documento(u);
-        listModel.addElement(doc);
-        
-        doc = new Documento(u);
-        listModel.addElement(doc);
-        
     }
 
     public void updateContent() {
@@ -75,7 +61,12 @@ public class DocsLista extends JList {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Documento doc = (Documento) value;
             
-            String label = "<html>" + doc.getTitulo() + "<br><small>" + doc.getAutor().getNome() + "</small></html>";
+            String label = "<html>" + doc.getTitulo();
+            if(doc.getAutor() != null){
+                label += "<br><small>" + doc.getAutor().getNome() + "</small>";
+            }
+            label += "</html>";
+
             setText(label);
             
             Icon icon = new ImageIcon(Main.getInstance().getAssets("doc.png"));

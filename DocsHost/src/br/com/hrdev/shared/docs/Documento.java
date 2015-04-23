@@ -12,11 +12,11 @@ public class Documento extends Shared {
     
     private String titulo;
     private String conteudo;
-    private final Usuario autor;
+    private Usuario autor;
 
-    public Documento(Usuario autor) {
-        this.autor = autor;
-        this.titulo = "";
+    public Documento() {
+        this.autor = null;
+        this.titulo = "Sem título";
         this.conteudo = "";
     }
 

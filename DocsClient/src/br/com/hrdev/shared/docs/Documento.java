@@ -12,16 +12,12 @@ public class Documento extends Shared {
     
     private String titulo;
     private String conteudo;
-    private final Usuario autor;
-
-    public Documento(Usuario autor) {
-        this.autor = autor;
-        this.titulo = "Sem título";
-        this.conteudo = "";
-    }
+    private Usuario autor;
 
     public Documento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.autor = null;
+        this.titulo = "";
+        this.conteudo = "";
     }
 
     public String getTitulo() {

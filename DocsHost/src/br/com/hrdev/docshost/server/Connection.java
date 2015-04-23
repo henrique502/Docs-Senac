@@ -14,23 +14,16 @@ import java.net.Socket;
  */
 public class Connection implements Runnable {
 
-    private final Thread thread;
     private final Socket cliente;
     private final String ip;
     private final Stream stream;
-    private boolean running = true;
 
     public Connection(Socket cliente) throws IOException {
         this.cliente = cliente;
-        this.thread = new Thread(this);
         this.ip = cliente.getInetAddress().getHostAddress();
         this.stream = new Stream();
     }
-
-    public Thread getThread() {
-        return thread;
-    }
-
+    
     public Socket getCliente() {
         return cliente;
     }
@@ -38,37 +31,29 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         Api api = new Api();
-        while (running){
-            try {
-                Mensagem msg = stream.get();
-                switch (msg.getComando()) {
-                    case "quit":
-                        quit();
-                        return;
-                    case "login":
-                        api.login(stream, msg.getValue());
-                        break;
-                    case "cadastro":
-                        api.cadastro(stream, msg.getValue());
-                        break;
-                    default:
-                        api.notfound(stream);
-                        break;
-                }
-            } catch (ClassNotFoundException | IOException e) {
-                e.printStackTrace();
-            } catch(Exception e){
-                quit();
+        try {
+            Mensagem msg = stream.get();
+            switch (msg.getComando()) {
+                case "login":
+                    api.login(stream, msg.getValue());
+                    break;
+                case "cadastro":
+                    api.cadastro(stream, msg.getValue());
+                    break;
+                default: break;
             }
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            quit();
         }
+
     }
 
-    private void quit(){
-        running = false;
+    private void quit() {
         try {
             cliente.close();
-            thread.interrupt();
-        } catch(IOException e){}
+        } catch (IOException e) { }
     }
 
     public String getIp() {

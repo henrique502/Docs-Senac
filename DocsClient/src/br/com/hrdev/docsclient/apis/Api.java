@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,38 +19,15 @@ import javax.swing.JOptionPane;
 public class Api {
     
     private static Api instance = null;
-    private Socket socket = null;
-    private Stream stream;
     
     protected Api(){}
     
     public static Api getInstance(){
         if(instance == null){
             instance = new Api();
-            instance.run();
         }
         
         return instance;
-    }
-    
-    private void run() {
-        try {
-            socket = new Socket(Main.SERVER_IP, Main.SERVER_PORT);
-            stream = new Stream();
-            
-            System.out.println("connected: " + Main.SERVER_IP + ":" + Main.SERVER_PORT);
-        } catch(ConnectException e){
-            JOptionPane.showMessageDialog(Window.getInstance(), e.getMessage(), "Erro ao conenctar", JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void close(){
-        try {
-            socket.close();
-        } catch(Exception e){}
     }
     
     public void execute(final ApiAction action) throws Exception {
@@ -56,7 +35,22 @@ public class Api {
 
             @Override
             public void run() {
-                action.execute(stream);
+                Socket socket = null;
+                try {
+                    socket = new Socket(Main.SERVER_IP, Main.SERVER_PORT);
+                    Stream stream = new Stream(socket);
+                    action.execute(stream);
+                } catch(ConnectException e){
+                    JOptionPane.showMessageDialog(Window.getInstance(), e.getMessage(), "Erro ao conenctar", JOptionPane.ERROR_MESSAGE);
+                    System.exit(0);
+                } catch(IOException e){
+                    
+                } finally {
+                    if(socket != null)
+                        try {
+                            socket.close();
+                    } catch (IOException ex) {}
+                }
             }
         });
         thread.start();
@@ -71,7 +65,7 @@ public class Api {
         private final ObjectInputStream ro;
         private final ObjectOutputStream wo;
 
-        private Stream() throws IOException {
+        private Stream(Socket socket) throws IOException {
             this.ro = new ObjectInputStream(socket.getInputStream());
             this.wo = new ObjectOutputStream(socket.getOutputStream());
         }
