@@ -1,7 +1,6 @@
 package br.com.hrdev.docsclient.views;
 
-import br.com.hrdev.docsclient.apis.Api;
-import br.com.hrdev.shared.docs.Usuario;
+import br.com.hrdev.shared.docs.models.Usuario;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;

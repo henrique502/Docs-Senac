@@ -1,8 +1,15 @@
 package br.com.hrdev.docsclient.controllers;
 
-import br.com.hrdev.docsclient.apis.Api;
+import br.com.hrdev.docsclient.Main;
 import br.com.hrdev.docsclient.views.WelcomeView;
 import br.com.hrdev.docsclient.views.Window;
+import br.com.hrdev.shared.docs.api.Api;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,11 +30,16 @@ public class WelcomeController extends Controller {
         Thread thread = new Thread(new Runnable() {
 
             @Override
-            public void run() {
-                System.out.println("Execute Api Init");
-                Api.getInstance();
-                Window.getInstance().setStatusText("Conectado");
-                Window.getInstance().changeView(Window.ViewID.LOGIN);
+            public void run(){
+                try {
+                    api = (Api) Naming.lookup("rmi://" + Main.SERVER_IP + ":" + Main.SERVER_PORT + "/Api");
+                    Window.getInstance().setStatusText("Conectado");
+                    Window.getInstance().changeView(Window.ViewID.LOGIN);
+                } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+                    ex.printStackTrace();
+                    showErro(ex.getMessage());
+                    System.exit(0);
+                }
             }
         });
         thread.start();

@@ -1,7 +1,7 @@
 package br.com.hrdev.docshost;
 
-import br.com.hrdev.shared.docs.Documento;
-import br.com.hrdev.shared.docs.Usuario;
+import br.com.hrdev.shared.docs.models.Documento;
+import br.com.hrdev.shared.docs.models.Usuario;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +14,8 @@ public class Storage {
     
     private final ArrayList<Usuario> usuarios;
     private final ArrayList<Documento> documentos;
+    private Long usuarioId = 1l;
+    private Long documentoId = 1l;
     
     protected Storage(){
         usuarios = new ArrayList<>();
@@ -40,6 +42,7 @@ public class Storage {
 
     public void saveUsuario(Usuario usuario) {
         Usuario u = new Usuario();
+        u.setId(usuarioId++);
         u.setNome(usuario.getNome());
         u.setSenha(usuario.getSenha());
         usuarios.add(u);

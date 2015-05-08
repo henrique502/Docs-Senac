@@ -2,7 +2,7 @@ package br.com.hrdev.docsclient.controllers;
 
 import br.com.hrdev.docsclient.views.DashboardView;
 import br.com.hrdev.docsclient.views.Window;
-import br.com.hrdev.shared.docs.Documento;
+import br.com.hrdev.shared.docs.models.Documento;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

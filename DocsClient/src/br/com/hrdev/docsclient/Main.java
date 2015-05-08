@@ -1,7 +1,5 @@
 package br.com.hrdev.docsclient;
 
-import br.com.hrdev.docsclient.controllers.Controller;
-import br.com.hrdev.docsclient.controllers.WelcomeController;
 import br.com.hrdev.docsclient.helpers.ValidationHelper;
 import br.com.hrdev.docsclient.views.Window;
 import java.awt.EventQueue;
@@ -12,7 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
- * http://stackoverflow.com/questions/19217420/sending-an-object-through-a-socket-in-java
  * @author henriqueschmidt
  */
 public class Main implements Runnable {
@@ -53,7 +50,7 @@ public class Main implements Runnable {
     
     protected Main(){
         BASE_DIR = System.getProperty("user.dir");
-        SERVER_PORT = 7896;
+        SERVER_PORT = 1099;
         LOCAL_IP = getLocalIp();
         SERVER_IP = JOptionPane.showInputDialog("Digite ip do servidor:", LOCAL_IP);
         
@@ -82,9 +79,5 @@ public class Main implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
-    }
-
-    public void Conenctar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

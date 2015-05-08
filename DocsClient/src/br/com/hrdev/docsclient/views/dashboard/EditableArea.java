@@ -1,7 +1,7 @@
 package br.com.hrdev.docsclient.views.dashboard;
 
 import br.com.hrdev.docsclient.views.DashboardView;
-import br.com.hrdev.shared.docs.Documento;
+import br.com.hrdev.shared.docs.models.Documento;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;

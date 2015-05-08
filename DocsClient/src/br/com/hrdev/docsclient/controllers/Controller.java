@@ -1,6 +1,7 @@
 package br.com.hrdev.docsclient.controllers;
 
 import br.com.hrdev.docsclient.views.Window;
+import br.com.hrdev.shared.docs.api.Api;
 import javax.swing.JOptionPane;
 
 /**
@@ -8,7 +9,9 @@ import javax.swing.JOptionPane;
  * @author henriqueschmidt
  */
 public abstract class Controller {
-
+    
+    protected static Api api = null;
+    
     public Controller() {
         
     }

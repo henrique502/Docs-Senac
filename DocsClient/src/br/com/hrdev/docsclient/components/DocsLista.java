@@ -2,8 +2,7 @@ package br.com.hrdev.docsclient.components;
 
 import br.com.hrdev.docsclient.Main;
 import br.com.hrdev.docsclient.views.Window;
-import br.com.hrdev.shared.docs.Documento;
-import br.com.hrdev.shared.docs.Usuario;
+import br.com.hrdev.shared.docs.models.Documento;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;

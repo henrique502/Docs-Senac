@@ -1,11 +1,9 @@
 package br.com.hrdev.docsclient.controllers;
 
-import br.com.hrdev.docsclient.apis.Api;
-import br.com.hrdev.docsclient.apis.ApiAction;
-import br.com.hrdev.docsclient.apis.actions.LoginApi;
+import static br.com.hrdev.docsclient.controllers.Controller.api;
 import br.com.hrdev.docsclient.views.LoginView;
 import br.com.hrdev.docsclient.views.Window;
-import br.com.hrdev.shared.docs.Usuario;
+import br.com.hrdev.shared.docs.models.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,7 +25,7 @@ public class LoginController extends Controller {
         view.getBtnLogin().addActionListener(new LoginAction());
     }
     
-    public void login(Usuario usuario){
+    private void login(Usuario usuario){
         Window.getInstance().setStatusText("Bem Vindo " + usuario.getNome());
         
         Window.getInstance().setUsuario(usuario);
@@ -51,18 +49,20 @@ public class LoginController extends Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // TODO: InputDataException
             view.setEnabled(false);
             Window.getInstance().setStatusText("Logando...");
 
             Usuario usuario = new Usuario(view.getInputUsername().getText(), new String(view.getInputPassword().getPassword()));
-            ApiAction action = new LoginApi(self, usuario);
-            
             try {
-                Api.getInstance().execute(action);
+                usuario = api.login(usuario);
+                login(usuario);
             } catch (Exception ex) {
                 Window.getInstance().setStatusText(ex.getMessage());
                 ex.printStackTrace();
             }
+            
+            
         }
     }
 }

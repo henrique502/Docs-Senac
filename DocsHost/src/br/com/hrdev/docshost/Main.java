@@ -1,73 +1,34 @@
 package br.com.hrdev.docshost;
 
-import br.com.hrdev.docshost.server.Server;
-import java.awt.EventQueue;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
-import javax.swing.UIManager;
+import br.com.hrdev.shared.docs.api.Api;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 
 /**
  *
  * @author henriqueschmidt
  */
-public class Main implements Runnable {
+public class Main {
     
-    private static Main instance = null;
-    public static String BASE_DIR = null;
-    public static Integer SERVER_PORT = null;
-    public static String LOCAL_IP = null;
+    public final static String BASE_DIR = System.getProperty("user.dir");
+    public final static int SERVER_PORT = 1099;
+    
+    protected Main(){}
     
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            Api api = new ServerApi();
+            LocateRegistry.createRegistry(SERVER_PORT);
             
-            Main main = Main.getInstance();
-            EventQueue.invokeLater(main);
-        } catch(Exception e){
-            e.printStackTrace();
+            try {
+                 Naming.rebind("Api", api);
+            } catch(MalformedURLException  ex){
+                ex.printStackTrace();
+            }
+        } catch(RemoteException ex){
+            ex.printStackTrace();
         }
-    }
-    
-    public static String getLocalIp() {
-        try {
-            InetAddress ip = InetAddress.getLocalHost();
-            return ip.getHostAddress();
-        } catch (UnknownHostException ex) {
-            return "0.0.0.0";
-        }
-    }
-    
-    public static Main getInstance(){
-        if(instance == null){
-            instance = new Main();
-        }
-        
-        return instance;
-    }
-    
-    protected Main(){
-        BASE_DIR = System.getProperty("user.dir");
-        SERVER_PORT = 7896;
-        LOCAL_IP = getLocalIp();
-        Storage.getInstance();
-    }
-    
-    public URL getAssets(String path){
-        URL input = null;
-        
-        try {
-            input = getClass().getResource("/resources/" + path);
-        } catch(Exception e){
-            System.err.println("Asset nao encontrado (/resources/" + path + ")");
-        }
-        
-        return input;
-    }
-
-    @Override
-    public void run() {
-        Server server = new Server(LOCAL_IP, SERVER_PORT);
     }
 }
