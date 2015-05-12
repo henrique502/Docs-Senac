@@ -3,9 +3,11 @@ package br.com.hrdev.docsclient.controllers;
 import static br.com.hrdev.docsclient.controllers.Controller.api;
 import br.com.hrdev.docsclient.views.LoginView;
 import br.com.hrdev.docsclient.views.Window;
+import br.com.hrdev.shared.docs.models.Documento;
 import br.com.hrdev.shared.docs.models.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,10 +28,10 @@ public class LoginController extends Controller {
     }
     
     private void login(Usuario usuario){
-        Window.getInstance().setStatusText("Bem Vindo " + usuario.getNome());
-        
-        Window.getInstance().setUsuario(usuario);
-        Window.getInstance().changeView(Window.ViewID.DASHBOARD);
+        Window w = Window.getInstance();
+        w.setStatusText("Bem Vindo " + usuario.getNome());
+        w.setUsuario(usuario);
+        w.changeView(Window.ViewID.DASHBOARD);
     }
 
     public void enableView() {

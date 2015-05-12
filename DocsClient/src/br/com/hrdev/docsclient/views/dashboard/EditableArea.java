@@ -1,7 +1,6 @@
 package br.com.hrdev.docsclient.views.dashboard;
 
 import br.com.hrdev.docsclient.views.DashboardView;
-import br.com.hrdev.shared.docs.models.Documento;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,7 +18,6 @@ import javax.swing.border.Border;
 public class EditableArea extends JPanel {
     
     private final DashboardView view;
-    private Documento doc;
     private final JTextArea texto;
     private final JTextField titulo;
 
@@ -68,7 +66,9 @@ public class EditableArea extends JPanel {
     }
     
     public void setTitulo(String titulo){
+        int pos = this.titulo.getCaretPosition();
         this.titulo.setText(titulo);
+        this.titulo.setCaretPosition(pos);
     }
     
     public String getConteudo(){
@@ -76,6 +76,16 @@ public class EditableArea extends JPanel {
     }
     
     public void setConteudo(String conteudo){
+        int pos = this.texto.getCaretPosition();
         this.texto.setText(conteudo);
+        this.texto.setCaretPosition(pos);
+    }
+
+    public JTextArea getTextoField() {
+        return texto;
+    }
+
+    public JTextField getTituloField() {
+        return titulo;
     }
 }

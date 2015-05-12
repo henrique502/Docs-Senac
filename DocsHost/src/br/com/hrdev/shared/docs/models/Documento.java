@@ -12,7 +12,7 @@ public class Documento extends Shared {
     
     private String titulo;
     private String conteudo;
-    private Usuario autor;
+    private Long autor;
 
     public Documento() {
         this.autor = null;
@@ -35,15 +35,15 @@ public class Documento extends Shared {
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
     }
-    
-    public Usuario getAutor() {
+
+    public Long getAutor() {
         return autor;
     }
-    
-    public void setAutor(Usuario autor) {
+
+    public void setAutor(Long autor) {
         this.autor = autor;
     }
-    
+
     @Override
     public String toString() {
         return this.titulo;

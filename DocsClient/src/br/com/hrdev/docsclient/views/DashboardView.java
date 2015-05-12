@@ -80,6 +80,7 @@ public class DashboardView extends View {
         editable.setEnabled(false);
         btnNovo.setEnabled(true);
         controller.setDocumentos();
+        controller.configUpdaterTimer();
     }
 
     public DashboardController getController() {

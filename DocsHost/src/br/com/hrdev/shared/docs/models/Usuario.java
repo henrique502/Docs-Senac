@@ -48,4 +48,8 @@ public class Usuario extends Shared {
     public ArrayList<Documento> getDocumentos() {
         return documentos;
     }
+
+    public void setDocumentos(ArrayList<Documento> documentos) {
+        this.documentos = documentos;
+    }
 }

@@ -1,5 +1,6 @@
 package br.com.hrdev.docsclient.views;
 
+import br.com.hrdev.shared.docs.models.Documento;
 import br.com.hrdev.shared.docs.models.Usuario;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -32,6 +33,7 @@ public class Window extends JFrame {
     private ArrayList<View> views;
     private ViewID currentView;
     private Usuario usuario = null;
+    private ArrayList<Documento> documentos = null;
 
     protected Window() {}
     
@@ -127,6 +129,10 @@ public class Window extends JFrame {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public void setDocumentos(ArrayList<Documento> documentos) {
+        this.documentos = documentos;
     }
     
     public enum ViewID {

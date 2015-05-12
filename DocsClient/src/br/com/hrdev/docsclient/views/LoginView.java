@@ -44,7 +44,7 @@ public class LoginView extends View {
         labelSenha.setText("Senha");
 
         btnLogin.setText("Login");
-        btnNovaConta.setText("Criar noma conta");
+        btnNovaConta.setText("Criar nova conta");
         
         JPanel panel = new JPanel();
         setLayout(new GridBagLayout());

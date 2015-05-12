@@ -62,7 +62,7 @@ public class DocsLista extends JList {
             
             String label = "<html>" + doc.getTitulo();
             if(doc.getAutor() != null){
-                label += "<br><small>" + doc.getAutor().getNome() + "</small>";
+                //label += "<br><small>" + doc.getAutor().getNome() + "</small>";
             }
             label += "</html>";
 

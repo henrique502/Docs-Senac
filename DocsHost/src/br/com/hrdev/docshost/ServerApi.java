@@ -9,6 +9,7 @@ import br.com.hrdev.shared.docs.models.Usuario;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 
 public class ServerApi extends UnicastRemoteObject implements Api, Serializable {
@@ -50,33 +51,42 @@ public class ServerApi extends UnicastRemoteObject implements Api, Serializable 
     }
 
     @Override
-    public Usuario logout(Usuario usuario) throws RemoteException, InputDataException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Documento criarDocumento(Usuario usuario, Documento documento) throws RemoteException, InputDataException {
+        usuario = Storage.getInstance().getUsuarioById(usuario.getId());
+        
+        if(usuario == null)
+            throw new InputDataException("usuario e null");
+            
+        if(documento == null)
+            throw new InputDataException("documento e null");
+                
+        Documento doc = Storage.getInstance().saveDocumento(usuario, documento);
+            
+        return doc;
     }
 
     @Override
-    public void criarDocumento(Usuario usuario, String titulo, String conteudo) throws RemoteException, InputDataException {
-        Documento documento = new Documento();
-        documento.setAutor(usuario);
-        documento.setTitulo(titulo);
-        documento.setConteudo(conteudo);
+    public void updateDocumento(Documento documento) throws RemoteException, InputDataException {            
+        if(documento == null)
+            throw new InputDataException("documento e null");
+        
+        Storage.getInstance().updateDocumento(documento);
     }
 
+   
     @Override
-    public void compartilharDocumento() throws RemoteException, InputDataException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Documento> getDocumentosByUsuario(Usuario usuario) throws RemoteException, InputDataException {
+        usuario = Storage.getInstance().getUsuarioById(usuario.getId());
+        
+        if(usuario == null)
+            throw new InputDataException("usuario e null");
+        
+        return usuario.getDocumentos();
     }
-
-    @Override
-    public void salvarDocumento() throws RemoteException, InputDataException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void excluirDocumento() throws RemoteException, InputDataException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     
+    @Override
+    public void excluirDocumento(Long id) throws RemoteException, InputDataException {}
     
+    @Override
+    public void compartilharDocumento(String username) throws RemoteException, InputDataException {}
 }
