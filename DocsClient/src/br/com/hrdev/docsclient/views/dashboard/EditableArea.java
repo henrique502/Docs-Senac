@@ -67,6 +67,9 @@ public class EditableArea extends JPanel {
     
     public void setTitulo(String titulo){
         int pos = this.titulo.getCaretPosition();
+        if(pos >= titulo.length())
+            pos = titulo.length();
+
         this.titulo.setText(titulo);
         this.titulo.setCaretPosition(pos);
     }
@@ -77,6 +80,9 @@ public class EditableArea extends JPanel {
     
     public void setConteudo(String conteudo){
         int pos = this.texto.getCaretPosition();
+        if(pos >= conteudo.length())
+            pos = conteudo.length();
+        
         this.texto.setText(conteudo);
         this.texto.setCaretPosition(pos);
     }
